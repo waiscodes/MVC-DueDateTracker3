@@ -32,7 +32,6 @@ namespace LibraryDueDateTracker.Controllers
                 }
             }
             ViewBag.Authors = AuthorController.GetAuthors();
-
             return View();
         }
 
