@@ -45,7 +45,9 @@ namespace LibraryDueDateTracker.Controllers
             {
                 Borrow extend = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
 
+                extend.ExtensionCount++;
                 extend.DueDate = extend.DueDate.AddDays(7);
+                
                 context.SaveChanges();
             }
         }
