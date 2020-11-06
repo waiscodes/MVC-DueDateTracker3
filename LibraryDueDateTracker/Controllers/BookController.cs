@@ -17,18 +17,17 @@ namespace LibraryDueDateTracker.Controllers
 
         public IActionResult Create(string title, string author, string publicationDate)
         {
-            if (title != null && author != null && publicationDate != null)
-            {
+            if (title != null)
+                //if (Request.Query.Count > 0)
+                {
                 try
                 {
                     CreateBook(title, author, publicationDate);
-                    ViewBag.SuccessfulCreation = true;
-                    ViewBag.Status = $"Successfully added book";
+                    ViewBag.Message = $"Successfully added book";
                 }
-                catch (Exception e)
+                catch
                 {
-                    ViewBag.SuccessfulCreation = false;
-                    ViewBag.Status = $"An error occured. {e.Message}";
+
                 }
             }
             ViewBag.Authors = AuthorController.GetAuthors();
