@@ -2,11 +2,17 @@
     ViewData["Title"] = "List";
 }
 
-<h1>List Lol hello</h1>
+<h1>List</h1>
+
+<form>
+    <label for="overdueBooks" >Overdue Books</label>
+    <input type="checkbox" class="toggle" id="overdueBooks" name="overdueBooks" />
+    <!--TO DO Add logic to this -->
+</form>
 
 @if (ViewBag.Books.Count > 0)
 {
-    <table  class="table">
+    <table class="table">
         <tr>
             <th>ID</th>
             <th>Title</th>
@@ -18,31 +24,31 @@
         </tr>
         @foreach (Book book in ViewBag.Books)
         {
-    <tr>
-        <td>@(book.ID)</td>
-        <td><a href="/Book/Details?id=@(book.ID)">@(book.Title)</a></td>
-        <td>@(book.Author.Name)</td>
-        <td>@(book.PublicationDate.ToShortDateString())</td>
-        @if (book.Borrows.Count > 0)
-        {
-            <td>
-                @(book
+            <tr>
+                <td>@(book.ID)</td>
+                <td><a href="/Book/Details?id=@(book.ID)">@(book.Title)</a></td>
+                <td>@(book.Author.Name)</td>
+                <td>@(book.PublicationDate.ToShortDateString())</td>
+                @if (book.Borrows.Count > 0)
+                {
+                    <td>
+                        @(book
                 .Borrows
                 .LastOrDefault()
                 .DueDate
                 .ToLongDateString())
-            </td>
+                    </td>
 
-            <td>
-             @(book
+                    <td>
+                        @(book
                 .Borrows
                 .LastOrDefault()
                 .CheckedOutDate
                 .ToLongDateString())
-            </td>
+                    </td>
 
-            <td>
-                @((book
+                    <td>
+                        @((book
                 .Borrows
                 .LastOrDefault()
                 .ReturnedDate == null ? "Not Returned" : ((DateTime)book
@@ -50,15 +56,15 @@
                 .LastOrDefault()
                 .ReturnedDate)
                 .ToShortDateString()))
-            </td>
-        }
-        else
-        {
-            <td><a href="/Book/Details?id=@(book.ID)">Borrow</a></td>
-            <td></td>
-            <td></td>
-        }
-    </tr>
+                    </td>
+                }
+                else
+                {
+                    <td><a href="/Book/Details?id=@(book.ID)">Borrow</a></td>
+                    <td></td>
+                    <td></td>
+                }
+            </tr>
         }
     </table>
 }
