@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+@if (ViewBag.Book != null)
+{
+    <h1>@(ViewBag.Book.Title)</h1>
+    <p>Details: Book ID @(ViewBag.Book.ID)</p>
+    <p>Title: @(ViewBag.Book.Title)</p>
+    <p>Author: @(ViewBag.Book.Author.Name)</p>
+    <p>Publication Date: @(ViewBag.Book.PublicationDate.ToShortDateString())</p>
+    if (ViewBag.Book.Borrows.Count > 0)
+    {
+        foreach(Borrow borrow in ViewBag.Book.Borrows)
+        {
+            <p>
+                Checkouted Dates: @(
+                borrow
+                .CheckedOutDate
+                .ToShortDateString())
+            </p>
+            <p>
+                DueDates: @(
+                borrow
+                .DueDate
+                .ToShortDateString())
+            </p>
+            <p>
+                Returned Date: @(
+                (borrow
+                .ReturnedDate == null ? "Not Returned" : ((DateTime)borrow
+                .ReturnedDate)
+                .ToShortDateString()))
+            </p>
+        }   
+    }
+
+    <a class="btn btn-success" href="/Book/Return/?id=@(ViewBag.Book.ID)">Return Book</a>
+
+    <a class="btn btn-primary" href="/Book/Extend/?id=@(ViewBag.Book.ID)">Extend Due Date</a>
+
+    <a class="btn btn-danger" href="/Book/Delete/?id=@(ViewBag.Book.ID)">Delete Book</a>
+
+    <a class="btn btn-primary" href="/Book/Borrow/?id=@(ViewBag.Book.ID)">Borrow Book</a>
+
+}
+else
+{
+    <h1>Details</h1>
+    <p>An error occured trying to populate book data. <a href="/Book/List">Click here to return to the book list</a>.</p>
+}

@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Create";
+}
+
+<section>
+    <h2>Add a book</h2>
+    <form action="/Book/Create" method="get">
+        <div>
+            <label for="title">Title:</label>
+            <input id="title" type="text" name="title" value="Warbreaker" />
+        </div>
+        <div>
+            <label for="author">Author:</label>
+            <select name="author">
+            @foreach (Author author in ViewBag.Authors)
+            {
+                <option value="@(author.ID)" selected>@(author.Name)</option>
+            }
+            </select>
+        </div>
+        <div>
+            <label for="publicationDate">Publication Date:</label>
+            <input id="publicationDate" type="date" name="publicationDate" value="2020-11-03" />
+        </div>
+        <input type="submit" value="Submit" />
+    </form>
+
+</section>
+
+
+<p>@(ViewBag.Msg)</p>
