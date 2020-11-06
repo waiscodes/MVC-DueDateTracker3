@@ -25,6 +25,9 @@ namespace LibraryDueDateTracker.Models
         [Column(TypeName = "date")]
         public DateTime? ReturnedDate { get; set; }
 
+        [Column(TypeName = "int(10)")]
+        public int ExtensionCount { get; set; }
+
         [ForeignKey(nameof(BookID))]
         [InverseProperty(nameof(Models.Book.Borrows))]
         public virtual Book Book { get; set; }

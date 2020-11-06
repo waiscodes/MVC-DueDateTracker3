@@ -39,13 +39,13 @@ namespace LibraryDueDateTracker.Models
                     {
                         ID = -1,
                         Name = "Brandon Sanderson",
-                        BirthDate = new DateTime(1975, 12, 19),
+                        BirthDate = new DateTime(1975, 12, 19)
                     },
                     new Author()
                     {
                         ID = -2,
                         Name = "Patrick Rothfuss",
-                        BirthDate = new DateTime(1973, 06, 06),
+                        BirthDate = new DateTime(1973, 06, 06)
                     },
                     new Author()
                     {
@@ -215,7 +215,8 @@ namespace LibraryDueDateTracker.Models
                         BookID = -1,
                         CheckedOutDate = new DateTime(2019, 12, 25),
                         DueDate = new DateTime(2020, 01, 07),
-                        ReturnedDate = new DateTime(2020, 01, 06)
+                        ReturnedDate = new DateTime(2020, 01, 06),
+                        ExtensionCount = 0
                     },
                     new Borrow()
                     {
@@ -223,16 +224,18 @@ namespace LibraryDueDateTracker.Models
                         BookID = -2,
                         CheckedOutDate = new DateTime(2020, 08, 24),
                         DueDate = new DateTime(2020, 09, 13),
-                        ReturnedDate = new DateTime(2020, 09, 12)
+                        ReturnedDate = new DateTime(2020, 09, 12),
+                        ExtensionCount = 1
                     },
                     new Borrow()
                     {
                         ID = -3,
                         BookID = -3,
                         CheckedOutDate = new DateTime(2020, 10, 10),
-                        DueDate = new DateTime(2020, 10, 24)
+                        DueDate = new DateTime(2020, 10, 24),
+                        ExtensionCount = 0
                     }
-                );
+                );;
             });
         }
     }

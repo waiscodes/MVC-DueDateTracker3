@@ -3,14 +3,16 @@ using System;
 using LibraryDueDateTracker.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LibraryDueDateTracker.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20201106023625_assignmentMigration")]
+    partial class assignmentMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,9 +221,6 @@ namespace LibraryDueDateTracker.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("ExtensionCount")
-                        .HasColumnType("int(10)");
-
                     b.Property<DateTime?>("ReturnedDate")
                         .HasColumnType("date");
 
@@ -239,7 +238,6 @@ namespace LibraryDueDateTracker.Migrations
                             BookID = -1,
                             CheckedOutDate = new DateTime(2019, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ExtensionCount = 0,
                             ReturnedDate = new DateTime(2020, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -248,7 +246,6 @@ namespace LibraryDueDateTracker.Migrations
                             BookID = -2,
                             CheckedOutDate = new DateTime(2020, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2020, 9, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ExtensionCount = 1,
                             ReturnedDate = new DateTime(2020, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -256,8 +253,7 @@ namespace LibraryDueDateTracker.Migrations
                             ID = -3,
                             BookID = -3,
                             CheckedOutDate = new DateTime(2020, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DueDate = new DateTime(2020, 10, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ExtensionCount = 0
+                            DueDate = new DateTime(2020, 10, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
