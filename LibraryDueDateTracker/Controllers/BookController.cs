@@ -32,10 +32,24 @@ namespace LibraryDueDateTracker.Controllers
             ViewBag.Authors = AuthorController.GetAuthors();
             return View();
         }
-        public IActionResult List()
+        public IActionResult List(string action)
         {
-            ViewBag.Books = GetBooks();
-            ViewBag.Overdue = GetOverdueBooks();
+            try
+            {
+                if(action == "list")
+                {
+                    ViewBag.Books = GetBooks();
+                }
+                else if (action == "overdue")
+                {
+                    //ViewBag.Books = GetOverdueBooks().Select(x => x.BookID);
+                }
+            }
+            catch
+            {
+
+            }
+            ViewBag.Books = GetOverdueBooks();
             return View();
         }
         public IActionResult Details(string id)
@@ -123,7 +137,6 @@ namespace LibraryDueDateTracker.Controllers
             {
                 booksList = context.Books.Include(x => x.Author).Include(x => x.Borrows).ToList();
 
-                // TODO: Add OrderBy to ensure LastOrDefault picks most recent.
             }
             return booksList;
         }
@@ -132,7 +145,9 @@ namespace LibraryDueDateTracker.Controllers
             List<Book> overDue;
             using (LibraryContext context = new LibraryContext())
             {
-                overDue = context.Books.Include(x => x.Borrows).ToList();
+                List<Book> booksList = context.Borrows.Include(x => x.Book).Where(y => y.DueDate < DateTime.Now && y.ReturnedDate == null).Select(borrow => borrow.Book).ToList();
+
+                overDue = context.Books.Include(x => x.Author).Include(x => x.Borrows).Where(x => booksList.Contains(x)).ToList();
             }
             return overDue;
         }
