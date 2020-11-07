@@ -36,7 +36,7 @@ namespace LibraryDueDateTracker.Controllers
         {
             try
             {
-                if(action == "list" || action == null)
+                if(action == "list")
                 {
                     ViewBag.Books = GetBooks();
                 }
@@ -44,6 +44,11 @@ namespace LibraryDueDateTracker.Controllers
                 {
                     ViewBag.Books = GetOverdueBooks();
                 }
+                else
+                {
+                    ViewBag.Books = GetBooks();
+                }
+
             }
             catch
             {
