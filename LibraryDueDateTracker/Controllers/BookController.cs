@@ -14,7 +14,6 @@ namespace LibraryDueDateTracker.Controllers
         {
             return RedirectToAction("List");
         }
-
         public IActionResult Create(string title, string author, string publicationDate)
         {
             if (title != null)
@@ -33,13 +32,12 @@ namespace LibraryDueDateTracker.Controllers
             ViewBag.Authors = AuthorController.GetAuthors();
             return View();
         }
-
         public IActionResult List()
         {
             ViewBag.Books = GetBooks();
+            ViewBag.Overdue = GetOverdueBooks();
             return View();
         }
-
         public IActionResult Details(string id)
         {
             try
@@ -88,27 +86,14 @@ namespace LibraryDueDateTracker.Controllers
                 context.SaveChanges();
             }
         }
-
-        public Book GetBookByID(string id)
-        {
-            Book specificBook;
-            using (LibraryContext context = new LibraryContext())
-            {
-                specificBook = context.Books.Where(x => x.ID == int.Parse(id)).Include(x => x.Author).Include(x => x.Borrows).SingleOrDefault();
-            }
-            return specificBook;
-        }
-
         public void ExtendDueDateForBorrowByID(string bookId)
         {
             BorrowController.ExtendDueDateForBorrowByID(bookId);
         }
-
         public void ReturnBookByID(string bookId)
         {
             BorrowController.ReturnBorrowByID(bookId);
         }
-
         public void DeleteBookByID(string bookId)
         {
             using (LibraryContext context = new LibraryContext())
@@ -122,6 +107,15 @@ namespace LibraryDueDateTracker.Controllers
             BorrowController.CreateBorrow(bookId);
         }
 
+        public Book GetBookByID(string id)
+        {
+            Book specificBook;
+            using (LibraryContext context = new LibraryContext())
+            {
+                specificBook = context.Books.Where(x => x.ID == int.Parse(id)).Include(x => x.Author).Include(x => x.Borrows).SingleOrDefault();
+            }
+            return specificBook;
+        }
         public List<Book> GetBooks()
         {
             List<Book> booksList;
@@ -133,13 +127,12 @@ namespace LibraryDueDateTracker.Controllers
             }
             return booksList;
         }
-         
         public List<Book> GetOverdueBooks()
         {
             List<Book> overDue;
             using (LibraryContext context = new LibraryContext())
             {
-                overDue = context.Books.Include(x => x.Borrows.Last().DueDate < DateTime.Now).ToList();
+                overDue = context.Books.Include(x => x.Borrows).ToList();
             }
             return overDue;
         }

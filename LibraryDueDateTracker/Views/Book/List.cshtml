@@ -7,6 +7,7 @@
 <form>
     <label for="overdueBooks" >Overdue Books</label>
     <input type="checkbox" class="toggle" id="overdueBooks" name="overdueBooks" />
+    <input type="submit" value="Search"/>
     <!--TO DO Add logic to this-->
 </form>
 
@@ -34,7 +35,8 @@
                     <td>
                         @(book
                 .Borrows
-                .LastOrDefault()
+                .OrderByDescending(x => x.CheckedOutDate)
+                .FirstOrDefault()
                 .DueDate
                 .ToLongDateString())
                     </td>
@@ -72,3 +74,8 @@ else
 {
     <p>No books in the library.</p>
 }
+
+@*@foreach(Book overdue in ViewBag.Overdue)
+{
+    <p>@(overdue.)</p>
+}*@
