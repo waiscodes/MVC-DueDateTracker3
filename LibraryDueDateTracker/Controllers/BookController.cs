@@ -36,20 +36,19 @@ namespace LibraryDueDateTracker.Controllers
         {
             try
             {
-                if(action == "list")
+                if(action == "list" || action == null)
                 {
                     ViewBag.Books = GetBooks();
                 }
                 else if (action == "overdue")
                 {
-                    //ViewBag.Books = GetOverdueBooks().Select(x => x.BookID);
+                    ViewBag.Books = GetOverdueBooks();
                 }
             }
             catch
             {
 
             }
-            ViewBag.Books = GetOverdueBooks();
             return View();
         }
         public IActionResult Details(string id)
