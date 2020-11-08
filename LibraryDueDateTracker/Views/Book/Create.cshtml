@@ -30,7 +30,7 @@
             <select name="author">
                 @foreach (Author author in ViewBag.Authors)
                 {
-                    <option value="@(author.ID + 10)" selected>@(author.Name)</option>
+                    <option value="@(author.ID)" selected>@(author.Name)</option>
                 }
             </select>
         </div>

@@ -104,6 +104,19 @@ namespace LibraryDueDateTracker.Controllers
 
             using (LibraryContext context = new LibraryContext())
             {
+                if(string.IsNullOrWhiteSpace(title))
+                {
+                    exception.ValidationExceptions.Add(new Exception("Title cannot be empty"));
+                }
+                else if (context.Books.Any(x => x.Title.ToLower() == title.ToLower()))
+                {
+                    exception.ValidationExceptions.Add(new Exception("Book already exists"));
+                }
+                else if (title.Length > 100)
+                {
+                    exception.ValidationExceptions.Add(new Exception("Title is too long, less than 100 characters please."));
+                }
+
                 if(string.IsNullOrWhiteSpace(authorId))
                 {
                     exception.ValidationExceptions.Add(new Exception("Author Cannot be Empty"));
@@ -116,18 +129,13 @@ namespace LibraryDueDateTracker.Controllers
                 {
                     exception.ValidationExceptions.Add(new Exception("Author does not exist"));
                 }
-
-                if(string.IsNullOrWhiteSpace(title))
+                else
                 {
-                    exception.ValidationExceptions.Add(new Exception("Title cannot be empty"));
-                }
-                else if (context.Books.Any(x => x.Title.ToLower() == title.ToLower()))
-                {
-                    exception.ValidationExceptions.Add(new Exception("Book already exists"));
-                }
-                else if (title.Length > 100)
-                {
-                    exception.ValidationExceptions.Add(new Exception("Title is too long, less than 100 characters please."));
+                    List<int> authorsIDList = context.Books.Where(x => x.Title.ToLower() == title.ToLower()).Select(x => x.AuthorID).ToList();
+                    if (authorsIDList.Any() && authorsIDList.Contains(parsedAuthorID))
+                    {
+                        exception.ValidationExceptions.Add(new Exception("This author already has this book"));
+                    }
                 }
 
                 if(string.IsNullOrWhiteSpace(publicationDate))
