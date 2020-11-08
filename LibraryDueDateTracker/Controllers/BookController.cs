@@ -130,6 +130,15 @@ namespace LibraryDueDateTracker.Controllers
                     exception.ValidationExceptions.Add(new Exception("Title is too long, less than 100 characters please."));
                 }
 
+                if(string.IsNullOrWhiteSpace(publicationDate))
+                {
+                    exception.ValidationExceptions.Add(new Exception("Date cannot be empty"));
+                }
+                else if(DateTime.Parse(publicationDate) > DateTime.Now)
+                {
+                    exception.ValidationExceptions.Add(new Exception("Publication date cannot be in the future"));
+                }
+
                 if (exception.ValidationExceptions.Count > 0)
                 {
                     throw exception;

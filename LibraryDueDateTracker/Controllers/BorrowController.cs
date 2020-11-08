@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LibraryDueDateTracker.Models;
+using LibraryDueDateTracker.Models.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryDueDateTracker.Controllers
@@ -41,14 +42,24 @@ namespace LibraryDueDateTracker.Controllers
 
         public static void ExtendDueDateForBorrowByID(string bookID)
         {
+            ValidationException exception = new ValidationException();
             using (LibraryContext context = new LibraryContext())
             {
+
                 Borrow extend = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
 
-                extend.ExtensionCount++;
-                extend.DueDate = extend.DueDate.AddDays(7);
+                if(extend.ExtensionCount >= 3)
+                {
+                    exception.ValidationExceptions.Add(new Exception("Can't extend more than 3 times"));
+                }
+                else
+                {
+                    extend.ExtensionCount++;
+                    extend.DueDate = extend.DueDate.AddDays(7);
                 
-                context.SaveChanges();
+                    context.SaveChanges();
+                }
+
             }
         }
     }
