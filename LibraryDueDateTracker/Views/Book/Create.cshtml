@@ -4,21 +4,33 @@
 
 <section>
     <h2>Add a book</h2>
-    @if(ViewBag.Success == true)
+    @if(ViewBag.Message != null)
     {
         <p>@(ViewBag.Message)</p>
+        @if(ViewBag.Error != null)
+        {
+            <p>Error has occured.</p>
+
+            <ul>
+                @foreach(Exception e in ViewBag.Exception.ValidationExceptions)
+                {
+                    <li>@(e.Message)</li>
+                }
+            </ul>
+        }
     }
+
     <form action="/Book/Create" method="post">
         <div>
             <label for="title">Title:</label>
-            <input id="title" type="text" name="title" value="Warbreaker" />
+            <input id="title" type="text" name="title" value="" />
         </div>
         <div>
             <label for="author">Author:</label>
             <select name="author">
             @foreach (Author author in ViewBag.Authors)
             {
-                <option value="@(author.ID)" selected>@(author.Name)</option>
+                <option value="@(author.ID + 10)" selected>@(author.Name)</option>
             }
             </select>
         </div>

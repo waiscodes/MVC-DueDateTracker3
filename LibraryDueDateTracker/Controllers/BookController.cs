@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LibraryDueDateTracker.Models;
+using LibraryDueDateTracker.Models.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,19 +18,17 @@ namespace LibraryDueDateTracker.Controllers
         public IActionResult Create(string title, string author, string publicationDate)
         {
             if (title != null)
-                //if (Request.Query.Count > 0)
-                {
+            {
                 try
                 {
-                    ViewBag.Success = false;
                     CreateBook(title, author, publicationDate);
-                    ViewBag.Success = true;
                     ViewBag.Message = "Successfully added book";
                 }
-                catch
+                catch (ValidationException e)
                 {
-                    ViewBag.Success = true;
-                    ViewBag.Message = "Something went wrong";
+                    ViewBag.Message = "something went wrong";
+                    ViewBag.Exception = e;
+                    ViewBag.Error = true;
                 }
             }
             ViewBag.Authors = AuthorController.GetAuthors();
@@ -94,10 +93,48 @@ namespace LibraryDueDateTracker.Controllers
         }
 
         public void CreateBook(string title, string authorId, string publicationDate)
-
         {
+            int parsedAuthorID = 0;
+            ValidationException exception = new ValidationException();
+
+            title = !string.IsNullOrWhiteSpace(title) ? title.Trim() : null;
+            authorId = !string.IsNullOrWhiteSpace(authorId) ? authorId.Trim() : null;
+            publicationDate = !string.IsNullOrWhiteSpace(publicationDate) ? publicationDate.Trim() : null;
+
+
             using (LibraryContext context = new LibraryContext())
             {
+                if(string.IsNullOrWhiteSpace(authorId))
+                {
+                    exception.ValidationExceptions.Add(new Exception("Author Cannot be Empty"));
+                }
+                else if(!int.TryParse(authorId, out parsedAuthorID))
+                {
+                    exception.ValidationExceptions.Add(new Exception("Author ID is not in a vlid format"));
+                }
+                else if(!context.Authors.Any(x => x.ID == parsedAuthorID))
+                {
+                    exception.ValidationExceptions.Add(new Exception("Author does not exist"));
+                }
+
+                if(string.IsNullOrWhiteSpace(title))
+                {
+                    exception.ValidationExceptions.Add(new Exception("Title cannot be empty"));
+                }
+                else if (context.Books.Any(x => x.Title.ToLower() == title.ToLower()))
+                {
+                    exception.ValidationExceptions.Add(new Exception("Book already exists"));
+                }
+                else if (title.Length > 100)
+                {
+                    exception.ValidationExceptions.Add(new Exception("Title is too long, less than 100 characters please."));
+                }
+
+                if (exception.ValidationExceptions.Count > 0)
+                {
+                    throw exception;
+                }
+
                 context.Books.Add(new Book()
                 {
                     AuthorID = int.Parse(authorId),
