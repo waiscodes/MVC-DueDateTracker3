@@ -52,6 +52,10 @@ namespace LibraryDueDateTracker.Controllers
                 {
                     exception.ValidationExceptions.Add(new Exception("Can't extend more than 3 times"));
                 }
+                else if (extend.DueDate < DateTime.Now)
+                {
+                    exception.ValidationExceptions.Add(new Exception("Overdue books cannot be extended"));
+                }    
                 else
                 {
                     extend.ExtensionCount++;
