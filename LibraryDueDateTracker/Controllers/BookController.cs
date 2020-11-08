@@ -32,15 +32,15 @@ namespace LibraryDueDateTracker.Controllers
             ViewBag.Authors = AuthorController.GetAuthors();
             return View();
         }
-        public IActionResult List(string action)
+        public IActionResult List(string filter)
         {
             try
             {
-                if(action == "list")
+                if(filter == "list")
                 {
                     ViewBag.Books = GetBooks();
                 }
-                else if (action == "overdue")
+                else if (filter == "overdue")
                 {
                     ViewBag.Books = GetOverdueBooks();
                 }
