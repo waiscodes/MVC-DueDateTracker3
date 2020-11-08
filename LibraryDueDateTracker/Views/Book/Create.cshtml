@@ -4,15 +4,15 @@
 
 <section>
     <h2>Add a book</h2>
-    @if(ViewBag.Message != null)
+    @if (ViewBag.Message != null)
     {
         <p>@(ViewBag.Message)</p>
-        @if(ViewBag.Error != null)
+        @if (ViewBag.Error != null)
         {
             <p>Error has occured.</p>
 
             <ul>
-                @foreach(Exception e in ViewBag.Exception.ValidationExceptions)
+                @foreach (Exception e in ViewBag.Exception.ValidationExceptions)
                 {
                     <li>@(e.Message)</li>
                 }
@@ -28,16 +28,22 @@
         <div>
             <label for="author">Author:</label>
             <select name="author">
-            @foreach (Author author in ViewBag.Authors)
-            {
-                <option value="@(author.ID + 10)" selected>@(author.Name)</option>
-            }
+                @foreach (Author author in ViewBag.Authors)
+                {
+                    <option value="@(author.ID + 10)" selected>@(author.Name)</option>
+                }
             </select>
         </div>
         <div>
             <label for="publicationDate">Publication Date:</label>
-            <input id="publicationDate" type="date" name="publicationDate" value="2020-11-03" />
+            <input id="publicationDate" type="date" name="publicationDate" max="@(DateTime.Now.ToString("yyyy-MM-dd"))" />
         </div>
         <input type="submit" value="Submit" />
     </form>
 </section>
+
+@*
+    Citations
+    Today's Date https://stackoverflow.com/questions/38823758/format-datetime-now-to-yyyy-mm-dd
+
+*@
