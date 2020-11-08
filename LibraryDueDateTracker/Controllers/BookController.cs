@@ -21,12 +21,15 @@ namespace LibraryDueDateTracker.Controllers
                 {
                 try
                 {
+                    ViewBag.Success = false;
                     CreateBook(title, author, publicationDate);
-                    ViewBag.Message = $"Successfully added book";
+                    ViewBag.Success = true;
+                    ViewBag.Message = "Successfully added book";
                 }
                 catch
                 {
-
+                    ViewBag.Success = true;
+                    ViewBag.Message = "Something went wrong";
                 }
             }
             ViewBag.Authors = AuthorController.GetAuthors();

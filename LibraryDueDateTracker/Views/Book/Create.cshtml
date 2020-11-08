@@ -4,6 +4,10 @@
 
 <section>
     <h2>Add a book</h2>
+    @if(ViewBag.Success == true)
+    {
+        <p>@(ViewBag.Message)</p>
+    }
     <form action="/Book/Create" method="post">
         <div>
             <label for="title">Title:</label>
