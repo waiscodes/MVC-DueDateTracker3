@@ -56,7 +56,7 @@ namespace LibraryDueDateTracker.Controllers
             }
             return View();
         }
-        public IActionResult Details(string id)
+        public IActionResult Details(string id, string action)
         {
             try
             {

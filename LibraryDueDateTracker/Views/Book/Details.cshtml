@@ -11,7 +11,7 @@
     <p>Publication Date: @(ViewBag.Book.PublicationDate.ToShortDateString())</p>
     if (ViewBag.Book.Borrows.Count > 0)
     {
-        foreach(Borrow borrow in ViewBag.Book.Borrows)
+        foreach (Borrow borrow in ViewBag.Book.Borrows)
         {
             <p>
                 Checkouted Dates: @(
@@ -38,12 +38,11 @@
                 .ExtensionCount
                 )
             </p>
-        }   
+        }
+        <a class="btn btn-success" href="/Book/Return/?id=@(ViewBag.Book.ID)">Return Book</a>
+
+        <a class="btn btn-primary" href="/Book/Extend/?id=@(ViewBag.Book.ID)">Extend Due Date</a>
     }
-
-    <a class="btn btn-success" href="/Book/Return/?id=@(ViewBag.Book.ID)">Return Book</a>
-
-    <a class="btn btn-primary" href="/Book/Extend/?id=@(ViewBag.Book.ID)">Extend Due Date</a>
 
     <a class="btn btn-danger" href="/Book/Delete/?id=@(ViewBag.Book.ID)">Delete Book</a>
 
