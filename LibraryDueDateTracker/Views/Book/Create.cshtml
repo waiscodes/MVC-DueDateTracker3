@@ -9,8 +9,6 @@
         <p>@(ViewBag.Message)</p>
         @if (ViewBag.Error != null)
         {
-            <p>Error has occured.</p>
-
             <ul>
                 @foreach (Exception e in ViewBag.Exception.ValidationExceptions)
                 {
