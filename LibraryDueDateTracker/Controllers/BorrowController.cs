@@ -45,7 +45,6 @@ namespace LibraryDueDateTracker.Controllers
             ValidationException exception = new ValidationException();
             using (LibraryContext context = new LibraryContext())
             {
-
                 Borrow extend = context.Borrows.Where(x => x.BookID == int.Parse(bookID)).SingleOrDefault();
 
                 if(extend.ExtensionCount >= 3)
@@ -63,7 +62,6 @@ namespace LibraryDueDateTracker.Controllers
                 
                     context.SaveChanges();
                 }
-
             }
         }
     }

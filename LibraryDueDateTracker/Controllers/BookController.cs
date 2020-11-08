@@ -17,7 +17,7 @@ namespace LibraryDueDateTracker.Controllers
         }
         public IActionResult Create(string title, string author, string publicationDate)
         {
-            if (title != null)
+            if (Request.Query.Count > 0)
             {
                 try
                 {
@@ -106,11 +106,7 @@ namespace LibraryDueDateTracker.Controllers
             {
                 if(string.IsNullOrWhiteSpace(title))
                 {
-                    exception.ValidationExceptions.Add(new Exception("Title cannot be empty"));
-                }
-                else if (context.Books.Any(x => x.Title.ToLower() == title.ToLower()))
-                {
-                    exception.ValidationExceptions.Add(new Exception("Book already exists"));
+                    exception.ValidationExceptions.Add(new Exception("title cannot be empty"));
                 }
                 else if (title.Length > 100)
                 {
@@ -129,9 +125,10 @@ namespace LibraryDueDateTracker.Controllers
                 {
                     exception.ValidationExceptions.Add(new Exception("Author does not exist"));
                 }
-                else
+                else if (!string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(authorId))
                 {
                     List<int> authorsIDList = context.Books.Where(x => x.Title.ToLower() == title.ToLower()).Select(x => x.AuthorID).ToList();
+
                     if (authorsIDList.Any() && authorsIDList.Contains(parsedAuthorID))
                     {
                         exception.ValidationExceptions.Add(new Exception("This author already has this book"));
