@@ -54,7 +54,11 @@ namespace LibraryDueDateTracker.Controllers
                 else if (extend.DueDate < DateTime.Now)
                 {
                     exception.ValidationExceptions.Add(new Exception("Overdue books cannot be extended"));
-                }    
+                }
+                else if (extend.ReturnedDate != null)
+                {
+                    exception.ValidationExceptions.Add(new Exception("Returned books cannot be extended"));
+                }
                 else
                 {
                     extend.ExtensionCount++;
