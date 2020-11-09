@@ -25,6 +25,7 @@
     <p>Publication Date: @(ViewBag.Book.PublicationDate.ToShortDateString())</p>
     if (ViewBag.Book.Borrows.Count > 0)
     {
+        bool extendMax = false;
         foreach (Borrow borrow in ViewBag.Book.Borrows)
         {
             <p>
@@ -52,14 +53,22 @@
                 .ExtensionCount
                 )
             </p>
+
+            @if(borrow.ExtensionCount >= 3)
+            {
+                extendMax = true;
+            }
         }
         <a class="btn btn-success" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=return">
             Return Book
         </a>
 
-        <a class="btn btn-primary" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=extend">
-            Extend Due Date
-        </a>
+        @if (extendMax != true)
+        {
+            <a class="btn btn-primary" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=extend">
+                Extend Due Date
+            </a>
+        }
     }
 
     <a class="btn btn-danger" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=delete">
@@ -76,5 +85,5 @@
 else
 {
     <h1>Details</h1>
-    <p>An error occured trying to populate book data. <a href="/Book/List">Click here to return to the book list</a>.</p>
+    <p>An error occured trying to populate book data. <a href="/Book/List">Click here to return to the Book list</a>.</p>
 }
