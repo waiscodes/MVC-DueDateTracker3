@@ -59,13 +59,19 @@ namespace LibraryDueDateTracker.Controllers
                 {
                     exception.ValidationExceptions.Add(new Exception("Returned books cannot be extended"));
                 }
-                else
+
+
+                if (exception.ValidationExceptions.Count > 0)
                 {
+                    throw exception;
+                }
+
+                
                     extend.ExtensionCount++;
                     extend.DueDate = extend.DueDate.AddDays(7);
                 
                     context.SaveChanges();
-                }
+                
             }
         }
     }
