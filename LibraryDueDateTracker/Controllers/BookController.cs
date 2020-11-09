@@ -50,7 +50,6 @@ namespace LibraryDueDateTracker.Controllers
                 {
                     ViewBag.Books = GetBooks();
                 }
-
             }
             catch
             {
@@ -72,7 +71,7 @@ namespace LibraryDueDateTracker.Controllers
                         BorrowController.CreateBorrow(id);
                         return detailsPage;
                     case "extend":
-                     BorrowController.ExtendDueDateForBorrowByID(id);
+                        BorrowController.ExtendDueDateForBorrowByID(id);
                         return detailsPage;
                     case "delete":
                         DeleteBookByID(id);
@@ -89,27 +88,6 @@ namespace LibraryDueDateTracker.Controllers
                 ViewBag.Message = e;
             }
             return View();
-        }
-
-        public IActionResult Extend(string id)
-        {
-            ExtendDueDateForBorrowByID(id);
-            return RedirectToAction("Details", new Dictionary<string, string>() { { "id", id } });
-        }
-        public IActionResult Return(string id)
-        {
-            ReturnBookByID(id);
-            return RedirectToAction("Details", new Dictionary<string, string>() { { "id", id } });
-        }
-        //public IActionResult Delete(string id)
-        //{
-        //    DeleteBookByID(id);
-        //    return RedirectToAction("List");
-        //}
-        public IActionResult Borrow(string id)
-        {
-            CreateBorrow(id);
-            return RedirectToAction("Details", new Dictionary<string, string>() { { "id", id } });
         }
 
         public void CreateBook(string title, string authorId, string publicationDate)
@@ -178,14 +156,6 @@ namespace LibraryDueDateTracker.Controllers
                 context.SaveChanges();
             }
         }
-        public void ExtendDueDateForBorrowByID(string bookId)
-        {
-            BorrowController.ExtendDueDateForBorrowByID(bookId);
-        }
-        public void ReturnBookByID(string bookId)
-        {
-            BorrowController.ReturnBorrowByID(bookId);
-        }
         public void DeleteBookByID(string bookId)
         {
             using (LibraryContext context = new LibraryContext())
@@ -193,10 +163,6 @@ namespace LibraryDueDateTracker.Controllers
                 context.Books.Remove(GetBookByID(bookId));
                 context.SaveChanges();
             }
-        }
-        public void CreateBorrow(string bookId)
-        {
-            BorrowController.CreateBorrow(bookId);
         }
 
         public Book GetBookByID(string id)
