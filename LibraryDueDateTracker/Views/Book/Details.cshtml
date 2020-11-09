@@ -26,6 +26,7 @@
     if (ViewBag.Book.Borrows.Count > 0)
     {
         bool extendMax = false;
+        bool bookReturned = false;
         foreach (Borrow borrow in ViewBag.Book.Borrows)
         {
             <p>
@@ -58,12 +59,20 @@
             {
                 extendMax = true;
             }
+            @if (borrow.ReturnedDate != null)
+            {
+                bookReturned = true;
+            }
         }
-        <a class="btn btn-success" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=return">
-            Return Book
-        </a>
 
-        @if (extendMax != true)
+        @if (bookReturned == false)
+        {
+            <a class="btn btn-success" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=return">
+                Return Book
+            </a>
+        }
+
+        @if (extendMax == false && bookReturned == false)
         {
             <a class="btn btn-primary" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=extend">
                 Extend Due Date
