@@ -41,7 +41,7 @@ namespace LibraryDueDateTracker.Controllers
         }
 
         public static void ExtendDueDateForBorrowByID(string bookID)
-        {
+        { 
             ValidationException exception = new ValidationException();
             using (LibraryContext context = new LibraryContext())
             {

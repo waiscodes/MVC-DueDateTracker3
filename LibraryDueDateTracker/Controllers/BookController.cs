@@ -26,7 +26,7 @@ namespace LibraryDueDateTracker.Controllers
                 }
                 catch (ValidationException e)
                 {
-                    ViewBag.Message = "something went wrong";
+                    ViewBag.Message = "Sorry that's not possible";
                     ViewBag.Exception = e;
                     ViewBag.Error = true;
                 }

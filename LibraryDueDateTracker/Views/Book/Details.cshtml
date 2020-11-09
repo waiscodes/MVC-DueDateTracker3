@@ -4,7 +4,16 @@
 
 @if (ViewBag.Message != null)
 {
-    <p>somet</p>
+    <p class="alert-danger">@(ViewBag.Message)</p>
+    @if (ViewBag.Error != null)
+    {
+        <ul>
+            @foreach (Exception e in ViewBag.Exception.ValidationExceptions)
+            {
+                <li class="alert-danger">@(e.Message)</li>
+            }
+        </ul>
+    }
 }
 
 @if (ViewBag.Book != null)
@@ -63,9 +72,9 @@
             Borrow Book
         </a>
     }
-    }
-    else
-    {
-        <h1>Details</h1>
-        <p>An error occured trying to populate book data. <a href="/Book/List">Click here to return to the book list</a>.</p>
-    }
+}
+else
+{
+    <h1>Details</h1>
+    <p>An error occured trying to populate book data. <a href="/Book/List">Click here to return to the book list</a>.</p>
+}
