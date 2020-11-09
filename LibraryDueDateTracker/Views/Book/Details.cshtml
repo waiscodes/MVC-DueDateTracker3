@@ -39,20 +39,20 @@
                 )
             </p>
         }
-        <a class="btn btn-success" href="/Book/Return/?id=@(ViewBag.Book.ID)">
+        <a class="btn btn-success" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=return">
             Return Book
         </a>
 
-        <a class="btn btn-primary" href="/Book/Extend/?id=@(ViewBag.Book.ID)">
+        <a class="btn btn-primary" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=extend">
             Extend Due Date
         </a>
     }
 
-    <a class="btn btn-danger" href="/Book/Delete/?id=@(ViewBag.Book.ID)">
+    <a class="btn btn-danger" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=delete">
         Delete Book
     </a>
 
-    <a class="btn btn-primary" href="/Book/Borrow/?id=@(ViewBag.Book.ID)">
+    <a class="btn btn-primary" href="/Book/Details/?id=@(ViewBag.Book.ID)&button=borrow">
         Borrow Book
     </a>
 }

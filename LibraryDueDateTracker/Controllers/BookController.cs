@@ -58,15 +58,35 @@ namespace LibraryDueDateTracker.Controllers
             }
             return View();
         }
-        public IActionResult Details(string id, string action)
+        public IActionResult Details(string id, string button)
         {
-            try
+            var detailsPage = RedirectToAction("Details", new Dictionary<string, string>() { { "id", id } });
+            var listPage = RedirectToAction("List", new Dictionary<string, string>() { { "id", id } });
+
+            try 
             {
                 ViewBag.Book = GetBookByID(id);
+                switch (button)
+                {
+                    case "borrow":
+                        BorrowController.CreateBorrow(id);
+                        return detailsPage;
+                    case "extend":
+                     BorrowController.ExtendDueDateForBorrowByID(id);
+                        return detailsPage;
+                    case "delete":
+                        DeleteBookByID(id);
+                        return listPage;
+                    case "return":
+                        BorrowController.ReturnBorrowByID(id);
+                        return detailsPage;
+                    default:
+                        return View();
+                }
             }
-            catch
+            catch (ValidationException e)
             {
-
+                ViewBag.Message = e;
             }
             return View();
         }
@@ -81,11 +101,11 @@ namespace LibraryDueDateTracker.Controllers
             ReturnBookByID(id);
             return RedirectToAction("Details", new Dictionary<string, string>() { { "id", id } });
         }
-        public IActionResult Delete(string id)
-        {
-            DeleteBookByID(id);
-            return RedirectToAction("List");
-        }
+        //public IActionResult Delete(string id)
+        //{
+        //    DeleteBookByID(id);
+        //    return RedirectToAction("List");
+        //}
         public IActionResult Borrow(string id)
         {
             CreateBorrow(id);
